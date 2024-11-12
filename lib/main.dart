@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+const widthAndHeight = 100.0;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -29,116 +31,36 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-enum CircleSide { left, right }
-
-extension ToPath on CircleSide {
-  Path toPath(Size size) {
-    var path = Path();
-
-    late Offset offset;
-    late bool clockwise;
-
-    switch (this) {
-      case CircleSide.left:
-        path.moveTo(size.width, 0);
-        offset = Offset(size.width, size.height);
-        clockwise = false;
-        break;
-      case CircleSide.right:
-        offset = Offset(0, size.height);
-        clockwise = true;
-        break;
-    }
-    path.arcToPoint(offset,
-        radius: Radius.elliptical(size.width / 2, size.height / 2),
-        clockwise: clockwise);
-    path.close();
-    return path;
-  }
-}
-
-class HalfCircleClipper extends CustomClipper<Path> {
-  final CircleSide side;
-
-  HalfCircleClipper({required this.side});
-
-  @override
-  Path getClip(Size size) => side.toPath(size);
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
-}
-
-extension on VoidCallback {
-  Future<void> delayed(Duration duration) => Future.delayed(duration, this);
-}
-
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late AnimationController _counterClockwiseRotationController;
-  late Animation<double> _counterClockwiseRotationAnimation;
 
-  late AnimationController _flipController;
-  late Animation<double> _flipAnimation;
+  late AnimationController _xController;
+  late AnimationController _yController;
+  late AnimationController _zController;
+  late Tween<double> _animation;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _counterClockwiseRotationController = AnimationController(
+
+    _xController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 20)
     );
-    _counterClockwiseRotationAnimation = Tween<double>(
-      begin: 0,
-      end: -(pi / 2),
-    ).animate(CurvedAnimation(
-        parent: _counterClockwiseRotationController, curve: Curves.easeOutExpo));
 
-    // flipAnimation :
-    _flipController = AnimationController(
+    _yController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 30)
     );
 
-    _flipAnimation = Tween<double>(
+    _zController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 40)
+    );
+
+    _animation = Tween<double>(
       begin: 0,
-      end: pi,
-    ).animate(
-        CurvedAnimation(parent: _flipController, curve: Curves.easeOutExpo));
-
-    // status listener :
-    _counterClockwiseRotationController.addStatusListener(
-      (status) {
-        if (status == AnimationStatus.completed) {
-          _flipAnimation = Tween<double>(
-            begin: _flipAnimation.value,
-            end: _flipAnimation.value + pi,
-          ).animate(CurvedAnimation(
-              parent: _flipController, curve: Curves.easeOutExpo));
-
-          // reset the flip controller and start the animation :
-          _flipController
-            ..reset()
-            ..forward();
-        }
-      },
-    );
-
-    _flipController.addStatusListener(
-          (status) {
-        if (status == AnimationStatus.completed) {
-          _counterClockwiseRotationAnimation = Tween<double>(
-            begin: _counterClockwiseRotationAnimation.value,
-            end: _counterClockwiseRotationAnimation.value + -(pi/2),
-          ).animate(CurvedAnimation(
-              parent: _counterClockwiseRotationController, curve: Curves.easeOutExpo
-          )
-          );
-        _counterClockwiseRotationController..reset()..forward();
-        }
-
-
-      },
+      end: pi*2,
     );
 
   }
@@ -146,73 +68,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    _counterClockwiseRotationController.dispose();
-    _flipController.dispose();
+    _xController.dispose();
+    _yController.dispose();
+    _zController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _counterClockwiseRotationController
-      ..reset()
-      ..forward.delayed(const Duration(seconds: 1));
+
 
     return Scaffold(
-      // backgroundColor: Colors.grey.shade800,
-      body: Center(
-        child: AnimatedBuilder(
-          animation: _counterClockwiseRotationController,
-          builder: (context, child) {
-            return Transform(
-              transform: Matrix4.identity()
-                ..rotateZ(_counterClockwiseRotationAnimation.value),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _flipController,
-                    builder: (context, child) {
-                      return Transform(
-                        alignment: Alignment.centerRight,
-                        transform: Matrix4.identity()
-                          ..rotateY(_flipAnimation.value),
-                        child: ClipPath(
-                          clipper: HalfCircleClipper(side: CircleSide.left),
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration:
-                                const BoxDecoration(color: Color(0xff0057b7)),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  AnimatedBuilder(
-                    animation: _flipAnimation,
-                    builder: (context, child) {
-                      return Transform(
-                        transform: Matrix4.identity()
-                          ..rotateY(_flipAnimation.value),
-                        alignment: Alignment.centerLeft,
-                        child: ClipPath(
-                          clipper: HalfCircleClipper(side: CircleSide.right),
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration:
-                                const BoxDecoration(color: Color(0xffffd700)),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-            );
-          },
-        ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: widthAndHeight,
+              width: double.infinity,
+            ),
+            Stack(
+              children: [
+                Container(
+                  color: Colors.red,
+                  height: widthAndHeight,
+                  width: widthAndHeight,
+                )
+              ],
+            )
+          ],
+        )
       ),
     );
   }
