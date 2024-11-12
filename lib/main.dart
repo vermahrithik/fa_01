@@ -1,5 +1,6 @@
 import 'dart:math' show pi;
 import 'package:flutter/material.dart';
+// import 'package:vector_math/vector_math.dart' as VectorMath;
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+const widthAndHeight = 100.0;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -29,191 +32,161 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-enum CircleSide { left, right }
-
-extension ToPath on CircleSide {
-  Path toPath(Size size) {
-    var path = Path();
-
-    late Offset offset;
-    late bool clockwise;
-
-    switch (this) {
-      case CircleSide.left:
-        path.moveTo(size.width, 0);
-        offset = Offset(size.width, size.height);
-        clockwise = false;
-        break;
-      case CircleSide.right:
-        offset = Offset(0, size.height);
-        clockwise = true;
-        break;
-    }
-    path.arcToPoint(offset,
-        radius: Radius.elliptical(size.width / 2, size.height / 2),
-        clockwise: clockwise);
-    path.close();
-    return path;
-  }
-}
-
-class HalfCircleClipper extends CustomClipper<Path> {
-  final CircleSide side;
-
-  HalfCircleClipper({required this.side});
-
-  @override
-  Path getClip(Size size) => side.toPath(size);
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
-}
-
-extension on VoidCallback {
-  Future<void> delayed(Duration duration) => Future.delayed(duration, this);
-}
-
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late AnimationController _counterClockwiseRotationController;
-  late Animation<double> _counterClockwiseRotationAnimation;
-
-  late AnimationController _flipController;
-  late Animation<double> _flipAnimation;
+  late AnimationController _xController;
+  late AnimationController _yController;
+  late AnimationController _zController;
+  late Tween<double> _animation;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _counterClockwiseRotationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
-    _counterClockwiseRotationAnimation = Tween<double>(
+
+    _xController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 20));
+
+    _yController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 30));
+
+    _zController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 40));
+
+    _animation = Tween<double>(
       begin: 0,
-      end: -(pi / 2),
-    ).animate(CurvedAnimation(
-        parent: _counterClockwiseRotationController, curve: Curves.easeOutExpo));
-
-    // flipAnimation :
-    _flipController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
+      end: pi * 2,
     );
-
-    _flipAnimation = Tween<double>(
-      begin: 0,
-      end: pi,
-    ).animate(
-        CurvedAnimation(parent: _flipController, curve: Curves.easeOutExpo));
-
-    // status listener :
-    _counterClockwiseRotationController.addStatusListener(
-      (status) {
-        if (status == AnimationStatus.completed) {
-          _flipAnimation = Tween<double>(
-            begin: _flipAnimation.value,
-            end: _flipAnimation.value + pi,
-          ).animate(CurvedAnimation(
-              parent: _flipController, curve: Curves.easeOutExpo));
-
-          // reset the flip controller and start the animation :
-          _flipController
-            ..reset()
-            ..forward();
-        }
-      },
-    );
-
-    _flipController.addStatusListener(
-          (status) {
-        if (status == AnimationStatus.completed) {
-          _counterClockwiseRotationAnimation = Tween<double>(
-            begin: _counterClockwiseRotationAnimation.value,
-            end: _counterClockwiseRotationAnimation.value + -(pi/2),
-          ).animate(CurvedAnimation(
-              parent: _counterClockwiseRotationController, curve: Curves.easeOutExpo
-          )
-          );
-        _counterClockwiseRotationController..reset()..forward();
-        }
-
-
-      },
-    );
-
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _counterClockwiseRotationController.dispose();
-    _flipController.dispose();
+    _xController.dispose();
+    _yController.dispose();
+    _zController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _counterClockwiseRotationController
+    _xController
       ..reset()
-      ..forward.delayed(const Duration(seconds: 1));
+      ..repeat();
+    _yController
+      ..reset()
+      ..repeat();
+    _zController
+      ..reset()
+      ..repeat();
 
     return Scaffold(
-      // backgroundColor: Colors.grey.shade800,
-      body: Center(
-        child: AnimatedBuilder(
-          animation: _counterClockwiseRotationController,
-          builder: (context, child) {
-            return Transform(
-              transform: Matrix4.identity()
-                ..rotateZ(_counterClockwiseRotationAnimation.value),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _flipController,
-                    builder: (context, child) {
-                      return Transform(
-                        alignment: Alignment.centerRight,
-                        transform: Matrix4.identity()
-                          ..rotateY(_flipAnimation.value),
-                        child: ClipPath(
-                          clipper: HalfCircleClipper(side: CircleSide.left),
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration:
-                                const BoxDecoration(color: Color(0xff0057b7)),
-                          ),
+      body: SafeArea(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: widthAndHeight,
+            width: double.infinity,
+          ),
+          AnimatedBuilder(
+            animation:
+                Listenable.merge([_xController, _yController, _zController]),
+            builder: (context, child) {
+              return Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..rotateX(_animation.evaluate(_xController))
+                  ..rotateY(_animation.evaluate(_yController))
+                  ..rotateZ(_animation.evaluate(_zController)),
+                child: Stack(
+                  children: [
+                    // back
+                    Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()..translate(0, 0, -widthAndHeight),
+                      child: Container(
+                        height: widthAndHeight,
+                        width: widthAndHeight,
+                        decoration: BoxDecoration(
+                            // color: Colors.purple,
+                            gradient: RadialGradient(colors: [Colors.purple,Colors.transparent]),
+                            border: Border.fromBorderSide(BorderSide(color: Colors.white,width: 1))
                         ),
-                      );
-                    },
-                  ),
-                  AnimatedBuilder(
-                    animation: _flipAnimation,
-                    builder: (context, child) {
-                      return Transform(
-                        transform: Matrix4.identity()
-                          ..rotateY(_flipAnimation.value),
-                        alignment: Alignment.centerLeft,
-                        child: ClipPath(
-                          clipper: HalfCircleClipper(side: CircleSide.right),
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration:
-                                const BoxDecoration(color: Color(0xffffd700)),
-                          ),
+                      ),
+                    ),
+                    // left
+                    Transform(
+                      alignment: Alignment.centerLeft,
+                      transform: Matrix4.identity()..rotateY(pi/2.0),
+                      child: Container(
+                        height: widthAndHeight,
+                        width: widthAndHeight,
+                        decoration: BoxDecoration(
+                          // color: Colors.red,
+                            gradient: RadialGradient(colors: [Colors.red,Colors.transparent]),
+                          border: Border.fromBorderSide(BorderSide(color: Colors.white,width: 1))
                         ),
-                      );
-                    },
-                  )
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+                      ),
+                    ),
+                    // right
+                    Transform(
+                      alignment: Alignment.centerRight,
+                      transform: Matrix4.identity()..rotateY(-pi/2.0),
+                      child: Container(
+                        height: widthAndHeight,
+                        width: widthAndHeight,
+                        decoration: BoxDecoration(
+                          // color: Colors.blue,
+                            gradient: RadialGradient(colors: [Colors.blue,Colors.transparent]),
+                          border: Border.fromBorderSide(BorderSide(color: Colors.white,width: 1))
+                        ),
+                      ),
+                    ),
+                    // front
+                    Container(
+                      height: widthAndHeight,
+                      width: widthAndHeight,
+                      decoration: const BoxDecoration(
+                          // color: Colors.green,
+                          gradient: RadialGradient(colors: [Colors.green,Colors.transparent]),
+                          border: Border.fromBorderSide(BorderSide(color: Colors.white,width: 1))
+                      ),
+                    ),
+                    // top
+                    Transform(
+                      alignment: Alignment.topCenter,
+                      transform: Matrix4.identity()..rotateX(-pi/2.0),
+                      child: Container(
+                        height: widthAndHeight,
+                        width: widthAndHeight,
+                        decoration: BoxDecoration(
+                            // color: Colors.orange,
+                            gradient: RadialGradient(colors: [Colors.orange,Colors.transparent]),
+                            border: Border.fromBorderSide(BorderSide(color: Colors.white,width: 1))
+                        ),
+                      ),
+                    ),
+                    // bottom
+                    Transform(
+                      alignment: Alignment.bottomCenter,
+                      transform: Matrix4.identity()..rotateX(pi/2.0),
+                      child: Container(
+                        height: widthAndHeight,
+                        width: widthAndHeight,
+                        decoration: BoxDecoration(
+                          // color: Colors.brown,
+                            gradient: RadialGradient(colors: [Colors.brown,Colors.transparent,]),
+                            border: Border.fromBorderSide(BorderSide(color: Colors.white,width: 1))
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          )
+        ],
+      )),
     );
   }
 }
