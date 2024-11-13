@@ -100,6 +100,28 @@ class DetailsScreen extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+            ),
+            SizedBox(height: 4.h,),
+            SizedBox(
+              height: 25.sp,
+              width: 25.sp,
+              child: ElevatedButton(
+                onPressed: (){
+                  context.pushNamed(RouteNames.tween);
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    padding: EdgeInsets.all(0.sp)
+                ),
+                child: Icon(
+                  Icons.animation,
+                  size: 20.sp,
+                  color: Colors.black,
+                ),
+              ),
             )
           ],
         ),
