@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +9,7 @@ class ZoomScreen extends StatefulWidget {
   State<ZoomScreen> createState() => _ZoomScreenState();
 }
 
+// final defaultWidth = 100.0.sp;
 const defaultWidth = 100.0;
 
 class _ZoomScreenState extends State<ZoomScreen> {

@@ -2,6 +2,7 @@ import 'package:a/models/person_model.dart';
 import 'package:a/views/pages/details_screen.dart';
 import 'package:a/views/pages/error_screen.dart';
 import 'package:a/views/pages/home_screen.dart';
+import 'package:a/views/pages/tween_animation_screen.dart';
 import 'package:a/views/pages/zoom_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +50,14 @@ class MyAppRouter{
           pageBuilder: (context,state){
             debugPrint('config page : ZoomScreen');
             return const MaterialPage(child: ZoomScreen());
+          },
+      ),
+      GoRoute(
+          name: RouteNames.tween,
+          path: RoutePaths.tween,
+          pageBuilder: (context,state){
+            debugPrint('config page : TweenScreen');
+            return const MaterialPage(child: TweenAnimationScreen());
           },
       ),
     ],
