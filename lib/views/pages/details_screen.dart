@@ -1,6 +1,8 @@
 import 'package:a/models/person_model.dart';
+import 'package:a/routing/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:go_router/go_router.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Person person;
@@ -10,6 +12,11 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            context.pop();
+          },
+        ),
         centerTitle: true,
         title: Hero(
           flightShuttleBuilder: (
@@ -72,6 +79,28 @@ class DetailsScreen extends StatelessWidget {
           children: [
             Text(person.name,style: TextStyle(fontSize: 18.sp,color: Colors.white),),
             Text('${person.age} years old',style: TextStyle(fontSize: 16.sp,color: Colors.white),),
+            SizedBox(height: 4.h,),
+            SizedBox(
+              height: 25.sp,
+              width: 25.sp,
+              child: ElevatedButton(
+                onPressed: (){
+                  context.pushNamed(RouteNames.zoom);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.sp),
+                  ),
+                  padding: EdgeInsets.all(0.sp)
+                ),
+                child: Icon(
+                  Icons.keyboard_double_arrow_right,
+                  size: 20.sp,
+                  color: Colors.black,
+                ),
+              ),
+            )
           ],
         ),
       ),
