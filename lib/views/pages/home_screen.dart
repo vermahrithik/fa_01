@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
           final person = People[index];
           return GestureDetector(
             onTap: () {
-              context.goNamed(
+              context.pushNamed(
                 RouteNames.details,
                 pathParameters: {
                   'name': person.name,
