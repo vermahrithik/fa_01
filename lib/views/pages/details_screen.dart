@@ -79,50 +79,6 @@ class DetailsScreen extends StatelessWidget {
           children: [
             Text(person.name,style: TextStyle(fontSize: 18.sp,color: Colors.white),),
             Text('${person.age} years old',style: TextStyle(fontSize: 16.sp,color: Colors.white),),
-            SizedBox(height: 4.h,),
-            SizedBox(
-              height: 25.sp,
-              width: 25.sp,
-              child: ElevatedButton(
-                onPressed: (){
-                  context.pushNamed(RouteNames.zoom);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  padding: EdgeInsets.all(0.sp)
-                ),
-                child: Icon(
-                  Icons.keyboard_double_arrow_right,
-                  size: 20.sp,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            SizedBox(height: 4.h,),
-            SizedBox(
-              height: 25.sp,
-              width: 25.sp,
-              child: ElevatedButton(
-                onPressed: (){
-                  context.pushNamed(RouteNames.tween);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    padding: EdgeInsets.all(0.sp)
-                ),
-                child: Icon(
-                  Icons.animation,
-                  size: 20.sp,
-                  color: Colors.black,
-                ),
-              ),
-            )
           ],
         ),
       ),
