@@ -1,4 +1,6 @@
 import 'package:a/models/person_model.dart';
+import 'package:a/views/pages/animated_prompts_screen.dart';
+import 'package:a/views/pages/custom_shape_animation.dart';
 import 'package:a/views/pages/details_screen.dart';
 import 'package:a/views/pages/error_screen.dart';
 import 'package:a/views/pages/hero_animation_screen.dart';
@@ -6,6 +8,7 @@ import 'package:a/views/pages/home_screen.dart';
 import 'package:a/views/pages/rotating_container_screen.dart';
 import 'package:a/views/pages/single_ticker_screen.dart';
 import 'package:a/views/pages/three_d_cube_screen.dart';
+import 'package:a/views/pages/three_d_drawer_screen.dart';
 import 'package:a/views/pages/ticker_screen.dart';
 import 'package:a/views/pages/tween_animation_screen.dart';
 import 'package:a/views/pages/zoom_screen.dart';
@@ -104,6 +107,30 @@ class MyAppRouter{
         pageBuilder: (context,state){
         debugPrint('config page : rotatingContainerAnimationScreen');
           return const MaterialPage(child: RotatingContainer());
+        },
+      ),
+      GoRoute(
+        name: RouteNames.customShapeAnimation,
+        path: RoutePaths.customShapeAnimation,
+        pageBuilder: (context,state){
+          debugPrint('config page : customShapeAnimationScreen');
+          return const MaterialPage(child: CustomShapeAnimation());
+        },
+      ),
+      GoRoute(
+        name: RouteNames.threeDDrawer,
+        path: RoutePaths.threeDDrawer,
+        pageBuilder: (context,state){
+          debugPrint('config page : threeDDrawerAnimationScreen');
+          return const MaterialPage(child: ThreeDDrawerAnimation());
+        },
+      ),
+      GoRoute(
+        name: RouteNames.animatedPrompt,
+        path: RoutePaths.animatedPrompt,
+        pageBuilder: (context,state){
+          debugPrint('config page : animationPromptScreen');
+          return const MaterialPage(child: AnimatedPrompt());
         },
       ),
     ],

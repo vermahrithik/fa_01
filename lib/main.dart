@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
           routeInformationParser: routerr.routeInformationParser,
           routerDelegate: routerr.routerDelegate,
           routeInformationProvider: routerr.routeInformationProvider,
+          scrollBehavior: const ScrollBehavior().copyWith(scrollbars: false),
         );
       },
     );
