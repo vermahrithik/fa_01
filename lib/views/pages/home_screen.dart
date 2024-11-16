@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // SingleTicker Animation Button :
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // Ticker Animation Button :
@@ -157,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // 3D Cube Animation Button :
@@ -198,7 +198,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // Hero Animation Button :
@@ -239,7 +239,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // Zooming Effect Button :
@@ -280,7 +280,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // Tween Animation Button :
@@ -321,7 +321,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // Custom Shape Animation Button :
@@ -362,7 +362,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 16.sp,
                   ),
 
                   // Next Animation Button :
@@ -403,7 +403,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: 4.h,
+                    height: 20.sp,
                   ),
 
                   // Animated Prompt Animation Button :
@@ -433,6 +433,47 @@ class HomeScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           AnimationNames.animatedPrompt,
+                          style: TextStyle(
+                            color: Colors.grey.shade300,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: 20.sp,
+                  ),
+
+                  // Assignment 01 Wave Animation Button :
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(RouteNames.waveAnimation);
+                    },
+                    child: GlassmorphicContainer(
+                      width: 70.sp,
+                      height: 25.sp,
+                      borderRadius: 10.sp,
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.3),
+                            Colors.white.withOpacity(0.1),
+                          ],
+                          stops: [
+                            0.3,
+                            1,
+                          ]),
+                      border: 0,
+                      blur: 7,
+                      borderGradient: LinearGradient(
+                          colors: [Colors.transparent, Colors.white]),
+                      child: Center(
+                        child: Text(
+                          AnimationNames.waveAnimation,
                           style: TextStyle(
                             color: Colors.grey.shade300,
                             fontSize: 18.sp,

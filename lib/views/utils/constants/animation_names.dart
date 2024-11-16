@@ -9,4 +9,5 @@ class AnimationNames{
   static const customShapeAnimation = 'Custom Shape Animation';
   static const threeDDrawer = '3D-Drawer Animation';
   static const animatedPrompt = 'Animated Prompt';
+  static const waveAnimation = 'Wave Animation';
 }
