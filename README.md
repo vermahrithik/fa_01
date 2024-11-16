@@ -45,6 +45,10 @@ Make sure you have Flutter installed and set up correctly. Check the [Flutter in
 
 ---
 
+## Build Apk :
+
+- **Build Apk**: [Download](https://drive.google.com/file/d/1XWEbYfJsQgfeOFr8FfO3pz6nKALWvSP9/view?usp=sharing)
+
 ## 🌱 Contributing
 
 This is a personal project, but feel free to open an issue or submit a pull request if you have suggestions or improvements to share.
