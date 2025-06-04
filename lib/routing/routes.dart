@@ -1,6 +1,7 @@
 import 'package:a/models/person_model.dart';
 import 'package:a/views/pages/animated_prompts_screen.dart';
 import 'package:a/views/pages/assignment_01.dart';
+import 'package:a/views/pages/assignment_02.dart';
 import 'package:a/views/pages/custom_shape_animation.dart';
 import 'package:a/views/pages/details_screen.dart';
 import 'package:a/views/pages/error_screen.dart';
@@ -140,6 +141,14 @@ class MyAppRouter{
         pageBuilder: (context,state){
           debugPrint('config page : waveAnimationScreen');
           return const MaterialPage(child: WaveAnimation());
+        },
+      ),
+      GoRoute(
+        name: RouteNames.cubeAnimation,
+        path: RoutePaths.cubeAnimation,
+        pageBuilder: (context,state){
+          debugPrint('config page : cubeAnimationScreen');
+          return const MaterialPage(child: Assignment02());
         },
       ),
     ],

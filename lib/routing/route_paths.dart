@@ -11,5 +11,10 @@ class RoutePaths {
   static String customShapeAnimation = '/customShapeAnimation';
   static String threeDDrawer = '/threeDDrawer';
   static String animatedPrompt = '/animatedPrompt';
+
+  /// assignments :
+  /// assignment 01 :
   static String waveAnimation = '/waveAnimation';
+  /// assignment 02 :
+  static String cubeAnimation = '/cubeAnimation';
 }

@@ -71,7 +71,7 @@ class _WaveAnimationState extends State<WaveAnimation> with TickerProviderStateM
     _wave01Controller = AnimationController(
         vsync: this,
         duration: const Duration(
-            seconds: 2
+            milliseconds: 300,
         )
     );
     _wave01Animation = Tween<double>(
@@ -80,7 +80,7 @@ class _WaveAnimationState extends State<WaveAnimation> with TickerProviderStateM
     ).animate(
         CurvedAnimation(
             parent: _wave01Controller,
-            curve: Curves.easeInOutExpo,
+            curve: Curves.linear,
         )
     );
 
@@ -88,7 +88,7 @@ class _WaveAnimationState extends State<WaveAnimation> with TickerProviderStateM
     _wave02Controller = AnimationController(
         vsync: this,
         duration: const Duration(
-            seconds: 2
+            milliseconds: 300,
         )
     );
     _wave02Animation = Tween<double>(
@@ -97,7 +97,7 @@ class _WaveAnimationState extends State<WaveAnimation> with TickerProviderStateM
     ).animate(
         CurvedAnimation(
           parent: _wave02Controller,
-          curve: Curves.easeInOutExpo,
+          curve: Curves.linear,
         )
     );
 

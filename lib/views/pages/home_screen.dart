@@ -483,6 +483,47 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  SizedBox(
+                    height: 20.sp,
+                  ),
+
+                  // Assignment 02 Wave Animation Button :
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(RouteNames.cubeAnimation);
+                    },
+                    child: GlassmorphicContainer(
+                      width: 70.sp,
+                      height: 25.sp,
+                      borderRadius: 10.sp,
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.3),
+                            Colors.white.withOpacity(0.1),
+                          ],
+                          stops: [
+                            0.3,
+                            1,
+                          ]),
+                      border: 0,
+                      blur: 7,
+                      borderGradient: LinearGradient(
+                          colors: [Colors.transparent, Colors.white]),
+                      child: Center(
+                        child: Text(
+                          AnimationNames.cubeAnimation,
+                          style: TextStyle(
+                            color: Colors.grey.shade300,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
