@@ -10,4 +10,5 @@ class AnimationNames{
   static const threeDDrawer = '3D-Drawer Animation';
   static const animatedPrompt = 'Animated Prompt';
   static const waveAnimation = 'Wave Animation';
+  static const cubeAnimation = 'Cube Animation';
 }
